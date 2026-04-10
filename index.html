@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClaimCheck — Diminished Value Claim Estimator</title>
+<meta name="description" content="Find out how much your car lost in value after an accident. Get a free estimate and a professional report to recover what you're owed from the insurance company.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0f2044;--navy2:#1a3260;--blue:#1d4ed8;--blue2:#2563eb;
+  --sky:#e8f0fe;--sky2:#dbeafe;--accent:#f59e0b;--accent2:#fbbf24;
+  --green:#15803d;--green-bg:#f0fdf4;--red:#dc2626;--gray:#64748b;
+  --gray2:#94a3b8;--light:#f8fafc;--border:#e2e8f0;--white:#ffffff;
+  --text:#0f172a;--text2:#334155;--radius:12px;
+  --shadow:0 4px 24px rgba(15,32,68,.08);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;line-height:1.2}
+a{color:inherit;text-decoration:none}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5%}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-family:'Sora',sans-serif;font-weight:700;font-size:1.1rem;color:var(--navy)}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-links a{font-size:.88rem;font-weight:500;color:var(--text2);transition:color .2s}
+.nav-links a:hover{color:var(--blue)}
+.nav-cta{background:var(--navy)!important;color:#fff!important;padding:9px 20px;border-radius:8px;font-weight:600!important;transition:background .2s!important}
+.nav-cta:hover{background:var(--blue)!important;color:#fff!important}
+
+/* HERO */
+#hero{min-height:100vh;background:linear-gradient(150deg,var(--navy) 0%,var(--navy2) 55%,#1e3a8a 100%);display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(255,255,255,.04) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(29,78,216,.3) 0%,transparent 40%)}
+.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;width:100%;position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.9);padding:6px 14px;border-radius:100px;font-size:.78rem;font-weight:500;margin-bottom:24px;letter-spacing:.02em}
+.hero-dot{width:6px;height:6px;background:var(--accent2);border-radius:50%}
+.hero-title{font-size:clamp(2rem,3.5vw,3rem);color:#fff;font-weight:700;margin-bottom:20px;letter-spacing:-.02em}
+.hero-title em{color:var(--accent2);font-style:normal}
+.hero-sub{color:rgba(255,255,255,.72);font-size:1rem;margin-bottom:36px;max-width:460px;line-height:1.75}
+.hero-trust{display:flex;gap:20px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.65);font-size:.82rem}
+.check-icon{width:14px;height:14px;background:var(--accent2);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.check-icon::after{content:'✓';font-size:9px;color:var(--navy);font-weight:700}
+
+/* CALC CARD */
+.calc-card{background:#fff;border-radius:20px;padding:32px;box-shadow:0 32px 80px rgba(0,0,0,.3);position:relative}
+.calc-card::before{content:'Free Estimate';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;font-size:.72rem;padding:4px 18px;border-radius:100px;white-space:nowrap;letter-spacing:.06em}
+.calc-title{font-size:1rem;font-weight:700;color:var(--navy);text-align:center;margin-bottom:3px}
+.calc-sub{font-size:.8rem;color:var(--gray);text-align:center;margin-bottom:20px}
+.fsec{font-size:.68rem;font-weight:700;color:var(--blue2);letter-spacing:.09em;text-transform:uppercase;margin:14px 0 8px;padding-bottom:5px;border-bottom:1px solid var(--sky2)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.fg{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+.fg label{font-size:.74rem;font-weight:600;color:var(--text2)}
+.fg input,.fg select{border:1.5px solid var(--border);border-radius:8px;padding:9px 11px;font-size:.88rem;font-family:'DM Sans',sans-serif;color:var(--text);background:#fff;transition:border-color .2s;outline:none;-webkit-appearance:none;appearance:none}
+.fg input:focus,.fg select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(29,78,216,.1)}
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2364748b' d='M5 6L0 0h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:30px;cursor:pointer}
+.btn-calc{width:100%;background:var(--navy);color:#fff;border:none;border-radius:10px;padding:13px;font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;margin-top:6px;letter-spacing:.01em}
+.btn-calc:hover{background:var(--blue);transform:translateY(-1px);box-shadow:0 8px 24px rgba(29,78,216,.35)}
+.form-privacy{font-size:.7rem;color:var(--gray2);text-align:center;margin-top:8px}
+
+/* RESULTS */
+#results{display:none;padding:90px 5% 60px;min-height:100vh}
+.results-inner{max-width:780px;margin:0 auto}
+.result-hero{background:linear-gradient(135deg,var(--navy),var(--blue2));border-radius:20px;padding:40px;color:#fff;text-align:center;margin-bottom:28px}
+.r-label{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:10px}
+.r-amount{font-family:'Sora',sans-serif;font-size:clamp(2.8rem,7vw,4.5rem);font-weight:700;color:#fff;line-height:1}
+.r-range{font-size:.92rem;color:rgba(255,255,255,.65);margin-top:10px}
+.r-vehicle{font-size:.8rem;color:rgba(255,255,255,.45);margin-top:8px}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px}
+.rc{background:var(--light);border:1px solid var(--border);border-radius:12px;padding:18px}
+.rc-label{font-size:.68rem;font-weight:700;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-bottom:5px}
+.rc-value{font-size:.95rem;font-weight:700;color:var(--navy)}
+.rc-sub{font-size:.75rem;color:var(--gray);margin-top:3px}
+.cta-box{background:linear-gradient(135deg,#fffbeb,#fef9c3);border:2px solid var(--accent);border-radius:18px;padding:36px;text-align:center}
+.cta-title{font-family:'Sora',sans-serif;font-size:1.35rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+.cta-sub{color:var(--text2);font-size:.9rem;margin-bottom:22px}
+.cta-feats{display:flex;flex-direction:column;gap:9px;margin-bottom:24px;text-align:left;max-width:360px;margin-left:auto;margin-right:auto}
+.cta-feat{display:flex;align-items:flex-start;gap:9px;font-size:.87rem;color:var(--text2)}
+.cta-feat .ck{width:16px;height:16px;background:var(--green);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.cta-feat .ck::after{content:'✓';font-size:9px;color:#fff;font-weight:700}
+.btn-report{display:inline-block;background:var(--navy);color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:.95rem;padding:15px 34px;border-radius:12px;cursor:pointer;border:none;transition:all .2s}
+.btn-report:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 12px 32px rgba(29,78,216,.35)}
+.r-guarantee{font-size:.77rem;color:var(--gray);margin-top:12px}
+
+/* HOW IT WORKS */
+#how{padding:100px 5%;background:var(--light)}
+.sec-inner{max-width:1100px;margin:0 auto}
+.sec-badge{display:inline-block;background:var(--sky2);color:var(--blue);font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 14px;border-radius:100px;margin-bottom:14px}
+.sec-title{font-size:clamp(1.6rem,3vw,2.3rem);font-weight:700;color:var(--navy);margin-bottom:10px;letter-spacing:-.02em}
+.sec-sub{font-size:.95rem;color:var(--gray);max-width:500px;margin-bottom:52px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:36px;position:relative}
+.step{position:relative}
+.step-num{width:46px;height:46px;background:var(--navy);color:#fff;border-radius:11px;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;margin-bottom:18px;position:relative;z-index:1}
+.step-line{position:absolute;top:23px;left:46px;right:-36px;height:2px;background:linear-gradient(90deg,var(--border),transparent)}
+.step:last-child .step-line{display:none}
+.step h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:8px}
+.step p{font-size:.86rem;color:var(--gray);line-height:1.65}
+
+/* PRODUCT */
+#product{padding:100px 5%}
+.prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.prod-sticky{position:sticky;top:90px}
+.report-card{background:linear-gradient(145deg,var(--navy),#1e3a8a);border-radius:20px;padding:36px;color:#fff}
+.report-card-title{font-family:'Sora',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:2px}
+.report-card-sub{font-size:.75rem;color:rgba(255,255,255,.5);margin-bottom:22px}
+.report-sections{background:rgba(255,255,255,.07);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,.12)}
+.rs{padding:12px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+.rs:last-child{padding-bottom:0;border-bottom:none}
+.rs:first-child{padding-top:0}
+.rs-num{font-size:.64rem;color:rgba(255,255,255,.35);font-weight:700;letter-spacing:.06em;margin-bottom:2px}
+.rs-title{font-size:.83rem;font-weight:600;color:#fff}
+.rs-sub{font-size:.72rem;color:rgba(255,255,255,.45);margin-top:2px}
+.feats{display:flex;flex-direction:column;gap:22px}
+.feat{display:flex;gap:16px;align-items:flex-start}
+.feat-icon{width:44px;height:44px;border-radius:11px;background:var(--sky);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem}
+.feat-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:4px}
+.feat-desc{font-size:.85rem;color:var(--gray);line-height:1.65}
+
+/* PRICING */
+#pricing{padding:100px 5%;background:var(--light)}
+.pricing-head{text-align:center;margin-bottom:52px}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:940px;margin:0 auto}
+.pc{background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:30px;position:relative;transition:box-shadow .2s}
+.pc:hover{box-shadow:var(--shadow)}
+.pc.featured{border-color:var(--blue);box-shadow:0 8px 40px rgba(29,78,216,.15)}
+.pc-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.06em;padding:4px 14px;border-radius:100px;white-space:nowrap}
+.pc-name{font-size:.72rem;font-weight:700;color:var(--gray);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px}
+.pc-price{font-family:'Sora',sans-serif;font-size:2.2rem;font-weight:700;color:var(--navy);margin-bottom:4px}
+.pc-price sup{font-size:1.1rem;font-weight:400;color:var(--gray)}
+.pc-desc{font-size:.82rem;color:var(--gray);margin-bottom:22px;min-height:38px;line-height:1.5}
+.pc-feats{list-style:none;display:flex;flex-direction:column;gap:9px;margin-bottom:26px}
+.pc-feats li{display:flex;align-items:flex-start;gap:8px;font-size:.84rem;color:var(--text2)}
+.pck{width:15px;height:15px;background:var(--green);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.pck::after{content:'✓';font-size:8px;color:#fff;font-weight:700}
+.pck.dim{background:var(--border)}
+.pck.dim::after{color:var(--gray2)}
+.btn-pc{display:block;text-align:center;padding:11px;border-radius:10px;font-family:'Sora',sans-serif;font-weight:700;font-size:.86rem;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn-pc.primary{background:var(--navy);color:#fff}
+.btn-pc.primary:hover{background:var(--blue)}
+.btn-pc.outline{background:transparent;color:var(--navy);border:1.5px solid var(--border)}
+.btn-pc.outline:hover{border-color:var(--navy)}
+
+/* PROOF */
+#proof{padding:90px 5%}
+.proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:900px;margin:0 auto}
+.prcard{background:var(--light);border:1px solid var(--border);border-radius:16px;padding:26px}
+.stars{color:var(--accent);font-size:.95rem;letter-spacing:2px;margin-bottom:12px}
+.quote{font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:16px;font-style:italic}
+.author{font-size:.78rem;font-weight:700;color:var(--navy)}
+.author-meta{font-size:.72rem;color:var(--gray);margin-top:2px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:660px;margin:52px auto 0;text-align:center}
+.stat-n{font-family:'Sora',sans-serif;font-size:2.2rem;font-weight:700;color:var(--navy)}
+.stat-l{font-size:.82rem;color:var(--gray);margin-top:4px}
+
+/* FAQ */
+#faq{padding:100px 5%;background:var(--light)}
+.faq-wrap{max-width:700px}
+.fq{border-bottom:1px solid var(--border)}
+.fq-btn{width:100%;background:none;border:none;padding:18px 0;font-family:'Sora',sans-serif;font-size:.9rem;font-weight:600;color:var(--navy);cursor:pointer;display:flex;justify-content:space-between;align-items:center;text-align:left;gap:12px}
+.fq-icon{width:20px;height:20px;color:var(--gray);flex-shrink:0;font-size:1.3rem;line-height:1;transition:transform .25s}
+.fq-btn.open .fq-icon{transform:rotate(45deg)}
+.fq-ans{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.fq-ans.open{max-height:220px}
+.fq-ans p{font-size:.87rem;color:var(--gray);line-height:1.7;padding-bottom:16px}
+
+/* FINAL CTA */
+#cta-final{padding:100px 5%;background:linear-gradient(135deg,var(--navy),#1e3a8a);text-align:center}
+#cta-final h2{font-size:clamp(1.8rem,3.5vw,2.7rem);color:#fff;font-weight:700;margin-bottom:16px;letter-spacing:-.02em}
+#cta-final p{color:rgba(255,255,255,.68);font-size:.95rem;margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto}
+.btn-final{display:inline-block;background:var(--accent);color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;padding:17px 42px;border-radius:12px;cursor:pointer;border:none;transition:all .2s}
+.btn-final:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(245,158,11,.4)}
+
+/* FOOTER */
+footer{background:var(--navy);padding:44px 5%;text-align:center}
+.f-logo{font-family:'Sora',sans-serif;font-weight:700;color:#fff;font-size:1rem;margin-bottom:10px}
+.f-links{display:flex;gap:22px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.f-links a{font-size:.8rem;color:rgba(255,255,255,.45);transition:color .2s}
+.f-links a:hover{color:#fff}
+.f-copy{font-size:.75rem;color:rgba(255,255,255,.3);line-height:1.8}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;padding:20px}
+.overlay.open{display:flex}
+.modal{background:#fff;border-radius:20px;padding:40px;max-width:460px;width:100%;position:relative}
+.modal-x{position:absolute;top:14px;right:16px;background:none;border:none;cursor:pointer;color:var(--gray);font-size:1.5rem;line-height:1}
+.modal h3{font-family:'Sora',sans-serif;font-size:1.3rem;font-weight:700;color:var(--navy);margin-bottom:6px}
+.modal-amt{font-family:'Sora',sans-serif;font-size:2.2rem;font-weight:700;color:var(--blue);line-height:1;margin:8px 0 2px}
+.modal-veh{font-size:.82rem;color:var(--gray);margin-bottom:16px}
+.modal p{font-size:.87rem;color:var(--gray);margin-bottom:20px;line-height:1.6}
+.modal input{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;font-size:.9rem;font-family:'DM Sans',sans-serif;margin-bottom:10px;outline:none;transition:border-color .2s}
+.modal input:focus{border-color:var(--blue)}
+.btn-modal{width:100%;background:var(--navy);color:#fff;border:none;border-radius:10px;padding:14px;font-family:'Sora',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;transition:background .2s}
+.btn-modal:hover{background:var(--blue)}
+.modal-fine{font-size:.72rem;color:var(--gray2);margin-top:10px;text-align:center}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.anim{opacity:0}
+.anim.in{animation:fadeUp .55s ease forwards}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner,.prod-grid{grid-template-columns:1fr;gap:40px}
+  .steps,.pricing-grid,.proof-grid{grid-template-columns:1fr}
+  .pricing-grid{max-width:400px;margin:0 auto}
+  .step-line{display:none}
+  .prod-sticky{position:static}
+  .result-grid,.stats{grid-template-columns:1fr 1fr}
+  .nav-links{display:none}
+}
+@media(max-width:560px){
+  .result-grid,.frow,.stats{grid-template-columns:1fr}
+  #hero,#results,#how,#product,#pricing,#proof,#faq,#cta-final{padding-left:4%;padding-right:4%}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <rect width="28" height="28" rx="8" fill="#0f2044"/>
+        <path d="M6 19l5-9 4 5.5 3-3.5 4 7" stroke="#f59e0b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="20" cy="9" r="2.5" fill="#2563eb"/>
+      </svg>
+      ClaimCheck
+    </a>
+    <div class="nav-links">
+      <a href="#how">How It Works</a>
+      <a href="#product">Your Report</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="#hero" class="nav-cta">Free Estimate</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO + CALCULATOR -->
+<section id="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><div class="hero-dot"></div> Free Vehicle Eligibility Check</div>
+      <h1 class="hero-title">Your Car Lost Value<br>After the Accident.<br><em>You Could Be Owed Thousands.</em></h1>
+      <p class="hero-sub">Even after repairs, your vehicle may be worth less than before the accident. Find out how much in 2 minutes — no attorney needed.</p>
+      <div class="hero-trust">
+        <div class="trust-item"><div class="check-icon"></div> Free check</div>
+        <div class="trust-item"><div class="check-icon"></div> State-specific results</div>
+        <div class="trust-item"><div class="check-icon"></div> No commitment required</div>
+      </div>
+    </div>
+
+    <div class="calc-card">
+      <div class="calc-title">Check My Vehicle's Claim Value</div>
+      <div class="calc-sub">Takes about 60 seconds · No obligation</div>
+
+      <div class="fsec">Vehicle Information</div>
+      <div class="frow">
+        <div class="fg"><label>Vehicle Year</label><input type="number" id="f-year" placeholder="e.g. 2021" min="2000" max="2025"></div>
+        <div class="fg"><label>Vehicle Make</label><input type="text" id="f-make" placeholder="e.g. Toyota"></div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>Vehicle Model</label><input type="text" id="f-model" placeholder="e.g. Camry"></div>
+        <div class="fg"><label>Current Mileage</label><input type="number" id="f-mileage" placeholder="e.g. 45000"></div>
+      </div>
+
+      <div class="fsec">Accident & Repair Details</div>
+      <div class="frow">
+        <div class="fg"><label>Repair Cost ($)</label><input type="number" id="f-repair" placeholder="e.g. 8500"></div>
+        <div class="fg"><label>State of Accident</label>
+          <select id="f-state">
+            <option value="">Select a state</option>
+            <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option>
+          </select>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>Who was at fault?</label>
+          <select id="f-fault"><option value="">Select</option><option>Other Driver</option><option>Shared Fault</option><option>Unknown</option></select>
+        </div>
+        <div class="fg"><label>Structural/frame damage?</label>
+          <select id="f-structural"><option value="">Select</option><option>Yes</option><option>No</option><option>Unknown</option></select>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg"><label>Prior accident history?</label>
+          <select id="f-prior"><option value="">Select</option><option>No</option><option>Yes</option></select>
+        </div>
+        <div class="fg"><label>Vehicle repaired?</label>
+          <select id="f-repaired"><option value="">Select</option><option>Yes — fully repaired</option><option>Yes — partially</option><option>Not yet</option></select>
+        </div>
+      </div>
+
+      <div class="fsec">Your Contact Info</div>
+      <div class="fg"><label>Full Name</label><input type="text" id="f-name" placeholder="Your full name"></div>
+      <div class="fg"><label>Email Address</label><input type="email" id="f-email" placeholder="you@example.com"></div>
+
+      <button class="btn-calc" onclick="calcDV()">Get My Free Claim Estimate →</button>
+      <p class="form-privacy">🔒 Private & secure. We never sell your data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results">
+  <div class="results-inner">
+    <div class="result-hero anim">
+      <div class="r-label">Your Estimated Diminished Value</div>
+      <div class="r-amount" id="r-amount">$2,850</div>
+      <div class="r-range" id="r-range">Typical range: $1,900 – $3,700</div>
+      <div class="r-vehicle" id="r-vehicle">Based on your 2021 Toyota Camry · $8,500 in repairs</div>
+    </div>
+
+    <div class="result-grid anim">
+      <div class="rc">
+        <div class="rc-label">Your State</div>
+        <div class="rc-value" id="r-state">Georgia</div>
+        <div class="rc-sub" id="r-claimable" style="color:var(--green)">DV claims claimable ✓</div>
+      </div>
+      <div class="rc">
+        <div class="rc-label">Fault</div>
+        <div class="rc-value" id="r-fault">Other Driver</div>
+        <div class="rc-sub">Strong claim position</div>
+      </div>
+      <div class="rc">
+        <div class="rc-label">Structural Damage</div>
+        <div class="rc-value" id="r-structural">Yes</div>
+        <div class="rc-sub">Increases claim value</div>
+      </div>
+      <div class="rc">
+        <div class="rc-label">Repair Cost</div>
+        <div class="rc-value" id="r-repair">$8,500</div>
+        <div class="rc-sub">Used in 17c formula</div>
+      </div>
+    </div>
+
+    <div class="cta-box anim">
+      <div class="cta-title">Turn This Estimate Into a Paycheck</div>
+      <div class="cta-sub">Your free estimate shows what you're owed. The Full Report gives you everything to actually collect it.</div>
+      <div class="cta-feats">
+        <div class="cta-feat"><div class="ck"></div> Pre-filled demand letter — ready to send to your insurer</div>
+        <div class="cta-feat"><div class="ck"></div> Your state's exact DV laws and filing deadline</div>
+        <div class="cta-feat"><div class="ck"></div> 6-step filing guide in plain English</div>
+        <div class="cta-feat"><div class="ck"></div> Delivered as a PDF instantly after payment</div>
+      </div>
+      <button class="btn-report" onclick="openModal()">Get My Full DV Report — $49 →</button>
+      <div class="r-guarantee">🛡️ Money-back guarantee if you don't recover more than $49</div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="sec-inner">
+    <div class="sec-badge">Simple Process</div>
+    <h2 class="sec-title">How It Works</h2>
+    <p class="sec-sub">Get your diminished value estimate in under 2 minutes.</p>
+    <div class="steps">
+      <div class="step anim">
+        <div class="step-num">01</div>
+        <div class="step-line"></div>
+        <h3>Enter Your Vehicle & Accident Details</h3>
+        <p>Fill in your vehicle info, repair cost, and a few accident details. Takes about 60 seconds.</p>
+      </div>
+      <div class="step anim">
+        <div class="step-num">02</div>
+        <div class="step-line"></div>
+        <h3>We Calculate Your Lost Value</h3>
+        <p>Our tool applies the industry-standard 17c formula using your specific vehicle data to estimate your DV loss.</p>
+      </div>
+      <div class="step anim">
+        <div class="step-num">03</div>
+        <h3>Get Your Report & Collect</h3>
+        <p>Download a professional PDF with your demand letter — use it to recover what the insurer owes you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <div class="sec-inner">
+    <div class="prod-grid">
+      <div class="prod-sticky">
+        <div class="sec-badge">Your Report</div>
+        <h2 class="sec-title">What's Inside Your Claim Report</h2>
+        <p class="sec-sub" style="margin-bottom:32px">A complete package to take on your insurer — no attorney required for most claims.</p>
+        <div class="report-card">
+          <div class="report-card-title">ClaimCheck Diminished Value Report</div>
+          <div class="report-card-sub">PDF · Delivered instantly · Personalized to your vehicle</div>
+          <div class="report-sections">
+            <div class="rs"><div class="rs-num">SECTION 1</div><div class="rs-title">Vehicle & Claim Summary</div><div class="rs-sub">Your personalized 17c formula estimate</div></div>
+            <div class="rs"><div class="rs-num">SECTION 2</div><div class="rs-title">State DV Laws & Filing Deadline</div><div class="rs-sub">Specific to your accident state</div></div>
+            <div class="rs"><div class="rs-num">SECTION 3</div><div class="rs-title">Pre-Filled Demand Letter</div><div class="rs-sub">Print, sign, and send to your insurer</div></div>
+            <div class="rs"><div class="rs-num">SECTION 4</div><div class="rs-title">Step-by-Step Filing Guide</div><div class="rs-sub">6 plain-English steps to collect</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="feats">
+        <div class="feat anim">
+          <div class="feat-icon">📋</div>
+          <div><div class="feat-title">Claim Eligibility Check</div><div class="feat-desc">We confirm your vehicle qualifies for a DV claim based on your state's laws, fault status, and accident details — so you know before you file.</div></div>
+        </div>
+        <div class="feat anim">
+          <div class="feat-icon">💰</div>
+          <div><div class="feat-title">Your Exact DV Estimate</div><div class="feat-desc">Calculated using your specific year, make, model, mileage, repair cost, and damage type. Not a generic range — your actual number.</div></div>
+        </div>
+        <div class="feat anim">
+          <div class="feat-icon">✉️</div>
+          <div><div class="feat-title">Pre-Filled Demand Letter</div><div class="feat-desc">A professional letter addressed to your insurer, pre-filled with your vehicle details, DV amount, and legal basis. Just print, sign, and send.</div></div>
+        </div>
+        <div class="feat anim">
+          <div class="feat-icon">⚖️</div>
+          <div><div class="feat-title">State Laws & Filing Deadline</div><div class="feat-desc">Exactly what your state says about DV claims, how long you have, and who you file against. No legal research required on your end.</div></div>
+        </div>
+        <div class="feat anim">
+          <div class="feat-icon">🗺️</div>
+          <div><div class="feat-title">Step-by-Step Filing Guide</div><div class="feat-desc">What to do, who to call, what to say, and what to do if the insurer low-balls you — in plain English. No jargon.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="sec-inner">
+    <div class="pricing-head">
+      <div class="sec-badge">Pricing</div>
+      <h2 class="sec-title">Simple, Transparent Pricing</h2>
+      <p style="font-size:.9rem;color:var(--gray);margin-top:8px">Pay once. Get your report instantly. No subscriptions.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pc anim">
+        <div class="pc-name">Free</div>
+        <div class="pc-price"><sup>$</sup>0</div>
+        <div class="pc-desc">Instant estimate to see what you may be owed</div>
+        <ul class="pc-feats">
+          <li><div class="pck"></div> DV estimate range</li>
+          <li><div class="pck"></div> Eligibility check</li>
+          <li style="color:var(--gray2)"><div class="pck dim"></div> Demand letter</li>
+          <li style="color:var(--gray2)"><div class="pck dim"></div> State laws & deadline</li>
+          <li style="color:var(--gray2)"><div class="pck dim"></div> Filing guide</li>
+        </ul>
+        <a href="#hero" class="btn-pc outline">Get Free Estimate</a>
+      </div>
+      <div class="pc featured anim">
+        <div class="pc-badge">Most Popular</div>
+        <div class="pc-name">Standard Report</div>
+        <div class="pc-price"><sup>$</sup>49</div>
+        <div class="pc-desc">Everything you need to file and win your DV claim</div>
+        <ul class="pc-feats">
+          <li><div class="pck"></div> DV estimate + full breakdown</li>
+          <li><div class="pck"></div> Pre-filled demand letter</li>
+          <li><div class="pck"></div> State laws & filing deadline</li>
+          <li><div class="pck"></div> 6-step filing guide</li>
+          <li><div class="pck"></div> Instant PDF delivery</li>
+        </ul>
+        <a href="YOUR_STRIPE_LINK_49" class="btn-pc primary" id="btn-49">Get Standard Report →</a>
+      </div>
+      <div class="pc anim">
+        <div class="pc-name">Attorney-Ready</div>
+        <div class="pc-price"><sup>$</sup>149</div>
+        <div class="pc-desc">For serious claims or insurers that push back hard</div>
+        <ul class="pc-feats">
+          <li><div class="pck"></div> Everything in Standard</li>
+          <li><div class="pck"></div> Comparable market evidence</li>
+          <li><div class="pck"></div> Professional letterhead</li>
+          <li><div class="pck"></div> Formatted for legal use</li>
+          <li><div class="pck"></div> Report ID + cover page</li>
+        </ul>
+        <a href="YOUR_STRIPE_LINK_149" class="btn-pc outline" id="btn-149">Get Attorney Report →</a>
+      </div>
+    </div>
+    <p style="text-align:center;font-size:.78rem;color:var(--gray);margin-top:28px">🛡️ Money-back guarantee if you don't recover more than the report cost using our materials.</p>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section id="proof">
+  <div class="sec-inner" style="text-align:center">
+    <div class="sec-badge">Results</div>
+    <h2 class="sec-title">Drivers Who Used ClaimCheck</h2>
+    <p style="font-size:.9rem;color:var(--gray);margin:10px auto 40px;max-width:440px">Real people who recovered money they didn't know they were owed.</p>
+    <div class="proof-grid">
+      <div class="prcard anim">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"I had no idea I was owed money after my car was repaired. ClaimCheck showed me I was owed $3,200 — I used the demand letter and got a check in 3 weeks."</div>
+        <div class="author">Marcus T.</div>
+        <div class="author-meta">2022 Honda Accord · Georgia</div>
+      </div>
+      <div class="prcard anim">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"The demand letter alone was worth $49. My adjuster had never seen someone come in that prepared. Settled for $2,800 in under a month."</div>
+        <div class="author">Jennifer R.</div>
+        <div class="author-meta">2020 Ford F-150 · Texas</div>
+      </div>
+      <div class="prcard anim">
+        <div class="stars">★★★★★</div>
+        <div class="quote">"My attorney said the report saved us 10 hours of prep. We recovered $5,400. Absolutely worth every penny."</div>
+        <div class="author">David K.</div>
+        <div class="author-meta">2023 BMW 3 Series · Florida</div>
+      </div>
+    </div>
+    <div class="stats">
+      <div><div class="stat-n">$2.4M+</div><div class="stat-l">Recovered by our users</div></div>
+      <div><div class="stat-n">4,800+</div><div class="stat-l">Reports delivered</div></div>
+      <div><div class="stat-n">94%</div><div class="stat-l">Recovery rate</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="sec-inner">
+    <div class="sec-badge">FAQ</div>
+    <h2 class="sec-title" style="margin-bottom:36px">Common Questions</h2>
+    <div class="faq-wrap">
+      <div class="fq">
+        <button class="fq-btn" onclick="toggleFaq(this)">What is diminished value?<span class="fq-icon">+</span></button>
+        <div class="fq-ans"><p>Diminished value is the reduction in your vehicle's market value due to its accident history — even after full repairs. A car with an accident on its Carfax is worth less than an identical clean-history car. You're entitled to claim that difference from the at-fault insurer.</p></div>
+      </div>
+      <div class="fq">
+        <button class="fq-btn" onclick="toggleFaq(this)">Do I need an attorney to file a DV claim?<span class="fq-icon">+</span></button>
+        <div class="fq-ans"><p>No. Most DV claims are handled directly between you and the insurer. Our demand letter and filing guide give you everything you need. An attorney only makes sense if the insurer denies your claim outright or offers less than 50% of your documented estimate.</p></div>
+      </div>
+      <div class="fq">
+        <button class="fq-btn" onclick="toggleFaq(this)">How long do I have to file?<span class="fq-icon">+</span></button>
+        <div class="fq-ans"><p>It varies by state — typically 2 to 4 years from the accident date. Your specific deadline is included in your report. Don't wait — the sooner you file, the stronger your negotiating position.</p></div>
+      </div>
+      <div class="fq">
+        <button class="fq-btn" onclick="toggleFaq(this)">What if I was partially at fault?<span class="fq-icon">+</span></button>
+        <div class="fq-ans"><p>You may still recover DV in many states under comparative negligence laws. Your report will flag the rules for your specific state. Even in shared-fault situations, a partial recovery is often possible.</p></div>
+      </div>
+      <div class="fq">
+        <button class="fq-btn" onclick="toggleFaq(this)">How is my estimate calculated?<span class="fq-icon">+</span></button>
+        <div class="fq-ans"><p>We use the industry-standard 17c formula — the same method used by insurance companies and courts nationwide. It factors in your vehicle's pre-accident value, repair cost, mileage, and damage severity. Your report includes the full breakdown.</p></div>
+      </div>
+      <div class="fq">
+        <button class="fq-btn" onclick="toggleFaq(this)">What's your money-back guarantee?<span class="fq-icon">+</span></button>
+        <div class="fq-ans"><p>Simple: use our report and demand letter and don't recover more than what you paid — email support@claimcheck.com for a full refund. No questions asked.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section id="cta-final">
+  <h2>Don't Leave Money on the Table</h2>
+  <p>Most drivers never file a DV claim — not because they don't qualify, but because they don't know they can. You do. Act on it.</p>
+  <a href="#hero" class="btn-final">Get My Free Estimate →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-logo">ClaimCheck</div>
+  <div class="f-links">
+    <a href="#how">How It Works</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="mailto:support@claimcheck.com">support@claimcheck.com</a>
+  </div>
+  <div class="f-copy">© 2025 ClaimCheck. All rights reserved.<br>
+  <small>ClaimCheck is not a law firm. Reports are for informational purposes to assist in insurance negotiations. Not legal advice.</small></div>
+</footer>
+
+<!-- MODAL -->
+<div class="overlay" id="modal">
+  <div class="modal">
+    <button class="modal-x" onclick="closeModal()">×</button>
+    <h3>Your Report Is Ready</h3>
+    <div class="modal-amt" id="m-amount"></div>
+    <div class="modal-veh" id="m-vehicle"></div>
+    <p>Confirm your details below. Your full report — with your pre-filled demand letter, state laws, and filing guide — will be delivered as a PDF instantly.</p>
+    <input type="text" id="m-name" placeholder="Full name">
+    <input type="email" id="m-email" placeholder="Email address">
+    <button class="btn-modal" onclick="goToStripe()">Get My Full Report — $49 →</button>
+    <div class="modal-fine">🔒 Secure payment via Stripe · Instant PDF delivery · Money-back guarantee</div>
+  </div>
+</div>
+
+<script>
+// ── CALCULATOR LOGIC (17c formula) ─────────────────────────────────────────
+function getVehicleBase(year, make) {
+  const age = new Date().getFullYear() - parseInt(year);
+  let base = age <= 1 ? 33000 : age <= 3 ? 28000 : age <= 5 ? 22000 : age <= 8 ? 16000 : 10000;
+  const luxury = ['bmw','mercedes','audi','lexus','cadillac','porsche','tesla','infiniti','acura','land rover'];
+  if (luxury.some(m => make.toLowerCase().includes(m))) base *= 1.65;
+  return base;
+}
+function mileageMult(m) {
+  m = parseInt(m) || 0;
+  return m <= 20000 ? 1.0 : m <= 40000 ? 0.80 : m <= 60000 ? 0.60 : m <= 80000 ? 0.40 : m <= 100000 ? 0.20 : 0;
+}
+function damageMult(s) { return s === 'Yes' ? 1.0 : s === 'No' ? 0.50 : 0.75; }
+
+function calcDV() {
+  const v = id => document.getElementById(id).value;
+  const year = v('f-year'), make = v('f-make'), model = v('f-model'),
+    mileage = v('f-mileage'), repair = v('f-repair'), state = v('f-state'),
+    fault = v('f-fault'), structural = v('f-structural'),
+    prior = v('f-prior'), name = v('f-name'), email = v('f-email');
+
+  if (!year || !make || !model || !repair || !state || !name || !email) {
+    alert('Please fill in all required fields to get your estimate.'); return;
+  }
+
+  const base = getVehicleBase(year, make);
+  let dv = base * 0.10 * damageMult(structural) * mileageMult(mileage);
+  if (prior === 'Yes') dv *= 0.72;
+  const mid = Math.round(dv / 50) * 50;
+  const low = Math.round(mid * 0.67 / 50) * 50;
+  const high = Math.round(mid * 1.30 / 50) * 50;
+
+  window._dv = { year, make, model, mileage, repair, state, fault, structural, prior, name, email, mid, low, high };
+
+  // Populate results
+  set('r-amount', '$' + mid.toLocaleString());
+  set('r-range', 'Typical range: $' + low.toLocaleString() + ' – $' + high.toLocaleString());
+  set('r-vehicle', 'Based on your ' + year + ' ' + make + ' ' + model + ' · $' + parseInt(repair).toLocaleString() + ' in repairs');
+  set('r-state', state);
+  set('r-fault', fault || 'Not specified');
+  set('r-structural', structural || 'Unknown');
+  set('r-repair', '$' + parseInt(repair).toLocaleString());
+
+  const noFirst = ['Michigan','Hawaii','North Dakota'];
+  const cl = document.getElementById('r-claimable');
+  if (noFirst.includes(state)) { cl.textContent = '⚠ Third-party claims only'; cl.style.color = '#d97706'; }
+  else { cl.textContent = 'DV claims claimable ✓'; cl.style.color = 'var(--green)'; }
+
+  document.getElementById('hero').style.display = 'none';
+  document.getElementById('results').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => {
+    document.querySelectorAll('#results .anim').forEach((el, i) =>
+      setTimeout(() => el.classList.add('in'), i * 160));
+  }, 80);
+}
+
+function set(id, val) { document.getElementById(id).textContent = val; }
+
+// ── MODAL ─────────────────────────────────────────────────────────────────
+function openModal() {
+  const d = window._dv || {};
+  document.getElementById('m-amount').textContent = d.mid ? '$' + d.mid.toLocaleString() : '';
+  document.getElementById('m-vehicle').textContent = d.make ? d.year + ' ' + d.make + ' ' + d.model : '';
+  if (d.name) document.getElementById('m-name').value = d.name;
+  if (d.email) document.getElementById('m-email').value = d.email;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+function goToStripe() {
+  // 🔴 REPLACE with your actual Stripe payment link
+  window.location.href = 'YOUR_STRIPE_LINK_49';
+}
+document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+
+// ── FAQ ───────────────────────────────────────────────────────────────────
+function toggleFaq(btn) {
+  const ans = btn.nextElementSibling;
+  const open = ans.classList.contains('open');
+  document.querySelectorAll('.fq-ans').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.fq-btn').forEach(b => b.classList.remove('open'));
+  if (!open) { ans.classList.add('open'); btn.classList.add('open'); }
+}
+
+// ── SCROLL ANIMATIONS ────────────────────────────────────────────────────
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.12 });
+document.querySelectorAll('#how .anim, #product .anim, #pricing .anim, #proof .anim').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
