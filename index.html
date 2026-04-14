@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,7 @@
 :root{
   --navy:#0f2044;--navy2:#1a3260;--blue:#1d4ed8;--blue2:#2563eb;
   --sky:#e8f0fe;--sky2:#dbeafe;--accent:#f59e0b;--accent2:#fbbf24;
-  --green:#15803d;--green-bg:#f0fdf4;--red:#dc2626;--gray:#64748b;
+  --green:#15803d;--green-bg:#f0fdf4;--red:#dc2626;--red-bg:#fef2f2;--gray:#64748b;
   --gray2:#94a3b8;--light:#f8fafc;--border:#e2e8f0;--white:#ffffff;
   --text:#0f172a;--text2:#334155;--radius:12px;
   --shadow:0 4px 24px rgba(15,32,68,.08);
@@ -22,7 +21,6 @@ html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;color:var(--text);background:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
 h1,h2,h3,h4{font-family:'Sora',sans-serif;line-height:1.2}
 a{color:inherit;text-decoration:none}
-
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 5%}
 .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
@@ -32,7 +30,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .nav-links a:hover{color:var(--blue)}
 .nav-cta{background:var(--navy)!important;color:#fff!important;padding:9px 20px;border-radius:8px;font-weight:600!important;transition:background .2s!important}
 .nav-cta:hover{background:var(--blue)!important;color:#fff!important}
-
 /* HERO */
 #hero{min-height:100vh;background:linear-gradient(150deg,var(--navy) 0%,var(--navy2) 55%,#1e3a8a 100%);display:flex;align-items:center;padding:100px 5% 60px;position:relative;overflow:hidden}
 #hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(255,255,255,.04) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(29,78,216,.3) 0%,transparent 40%)}
@@ -46,7 +43,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .trust-item{display:flex;align-items:center;gap:7px;color:rgba(255,255,255,.65);font-size:.82rem}
 .check-icon{width:14px;height:14px;background:var(--accent2);border-radius:50%;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
 .check-icon::after{content:'✓';font-size:9px;color:var(--navy);font-weight:700}
-
 /* CALC CARD */
 .calc-card{background:#fff;border-radius:20px;padding:32px;box-shadow:0 32px 80px rgba(0,0,0,.3);position:relative}
 .calc-card::before{content:'Free Estimate';position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:var(--accent);color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;font-size:.72rem;padding:4px 18px;border-radius:100px;white-space:nowrap;letter-spacing:.06em}
@@ -62,7 +58,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .btn-calc{width:100%;background:var(--navy);color:#fff;border:none;border-radius:10px;padding:13px;font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;cursor:pointer;transition:all .2s;margin-top:6px;letter-spacing:.01em}
 .btn-calc:hover{background:var(--blue);transform:translateY(-1px);box-shadow:0 8px 24px rgba(29,78,216,.35)}
 .form-privacy{font-size:.7rem;color:var(--gray2);text-align:center;margin-top:8px}
-
 /* RESULTS */
 #results{display:none;padding:90px 5% 60px;min-height:100vh}
 .results-inner{max-width:780px;margin:0 auto}
@@ -86,7 +81,20 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .btn-report{display:inline-block;background:var(--navy);color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:.95rem;padding:15px 34px;border-radius:12px;cursor:pointer;border:none;transition:all .2s}
 .btn-report:hover{background:var(--blue);transform:translateY(-2px);box-shadow:0 12px 32px rgba(29,78,216,.35)}
 .r-guarantee{font-size:.77rem;color:var(--gray);margin-top:12px}
-
+/* INELIGIBLE RESULT */
+#ineligible{display:none;padding:90px 5% 60px;min-height:100vh}
+.ineligible-inner{max-width:680px;margin:0 auto}
+.ineligible-card{background:var(--red-bg);border:2px solid var(--red);border-radius:20px;padding:40px;text-align:center;margin-bottom:24px}
+.ineligible-icon{font-size:3rem;margin-bottom:16px}
+.ineligible-title{font-family:'Sora',sans-serif;font-size:1.6rem;font-weight:700;color:var(--red);margin-bottom:12px}
+.ineligible-reason{font-size:1rem;color:var(--text2);line-height:1.7;margin-bottom:8px}
+.ineligible-note{font-size:.85rem;color:var(--gray);margin-top:12px;padding-top:12px;border-top:1px solid rgba(220,38,38,.2)}
+.ineligible-back{display:inline-block;background:var(--navy);color:#fff;font-family:'Sora',sans-serif;font-weight:700;font-size:.92rem;padding:13px 30px;border-radius:10px;cursor:pointer;border:none;transition:background .2s;margin-top:24px}
+.ineligible-back:hover{background:var(--blue)}
+.ineligible-tips{background:#fff;border:1px solid var(--border);border-radius:16px;padding:28px;margin-top:20px}
+.ineligible-tips h3{font-family:'Sora',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:14px}
+.tip-item{display:flex;gap:10px;align-items:flex-start;font-size:.86rem;color:var(--text2);margin-bottom:10px;line-height:1.6}
+.tip-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;margin-top:7px;flex-shrink:0}
 /* HOW IT WORKS */
 #how{padding:100px 5%;background:var(--light)}
 .sec-inner{max-width:1100px;margin:0 auto}
@@ -100,7 +108,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .step:last-child .step-line{display:none}
 .step h3{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:8px}
 .step p{font-size:.86rem;color:var(--gray);line-height:1.65}
-
 /* PRODUCT */
 #product{padding:100px 5%}
 .prod-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
@@ -120,7 +127,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .feat-icon{width:44px;height:44px;border-radius:11px;background:var(--sky);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem}
 .feat-title{font-weight:700;color:var(--navy);font-size:.93rem;margin-bottom:4px}
 .feat-desc{font-size:.85rem;color:var(--gray);line-height:1.65}
-
 /* PRICING */
 #pricing{padding:100px 5%;background:var(--light)}
 .pricing-head{text-align:center;margin-bottom:52px}
@@ -144,7 +150,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .btn-pc.primary:hover{background:var(--blue)}
 .btn-pc.outline{background:transparent;color:var(--navy);border:1.5px solid var(--border)}
 .btn-pc.outline:hover{border-color:var(--navy)}
-
 /* PROOF */
 #proof{padding:90px 5%}
 .proof-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:900px;margin:0 auto}
@@ -156,7 +161,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:660px;margin:52px auto 0;text-align:center}
 .stat-n{font-family:'Sora',sans-serif;font-size:2.2rem;font-weight:700;color:var(--navy)}
 .stat-l{font-size:.82rem;color:var(--gray);margin-top:4px}
-
 /* FAQ */
 #faq{padding:100px 5%;background:var(--light)}
 .faq-wrap{max-width:700px}
@@ -167,14 +171,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,
 .fq-ans{max-height:0;overflow:hidden;transition:max-height .3s ease}
 .fq-ans.open{max-height:220px}
 .fq-ans p{font-size:.87rem;color:var(--gray);line-height:1.7;padding-bottom:16px}
-
 /* FINAL CTA */
 #cta-final{padding:100px 5%;background:linear-gradient(135deg,var(--navy),#1e3a8a);text-align:center}
 #cta-final h2{font-size:clamp(1.8rem,3.5vw,2.7rem);color:#fff;font-weight:700;margin-bottom:16px;letter-spacing:-.02em}
 #cta-final p{color:rgba(255,255,255,.68);font-size:.95rem;margin-bottom:36px;max-width:480px;margin-left:auto;margin-right:auto}
 .btn-final{display:inline-block;background:var(--accent);color:var(--navy);font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;padding:17px 42px;border-radius:12px;cursor:pointer;border:none;transition:all .2s}
 .btn-final:hover{background:var(--accent2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(245,158,11,.4)}
-
 /* FOOTER */
 footer{background:var(--navy);padding:44px 5%;text-align:center}
 .f-logo{font-family:'Sora',sans-serif;font-weight:700;color:#fff;font-size:1rem;margin-bottom:10px}
@@ -182,7 +184,6 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
 .f-links a{font-size:.8rem;color:rgba(255,255,255,.45);transition:color .2s}
 .f-links a:hover{color:#fff}
 .f-copy{font-size:.75rem;color:rgba(255,255,255,.3);line-height:1.8}
-
 /* MODAL */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;padding:20px}
 .overlay.open{display:flex}
@@ -197,12 +198,10 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
 .btn-modal{width:100%;background:var(--navy);color:#fff;border:none;border-radius:10px;padding:14px;font-family:'Sora',sans-serif;font-weight:700;font-size:.92rem;cursor:pointer;transition:background .2s}
 .btn-modal:hover{background:var(--blue)}
 .modal-fine{font-size:.72rem;color:var(--gray2);margin-top:10px;text-align:center}
-
 /* ANIMATIONS */
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 .anim{opacity:0}
 .anim.in{animation:fadeUp .55s ease forwards}
-
 /* RESPONSIVE */
 @media(max-width:900px){
   .hero-inner,.prod-grid{grid-template-columns:1fr;gap:40px}
@@ -215,7 +214,7 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
 }
 @media(max-width:560px){
   .result-grid,.frow,.stats{grid-template-columns:1fr}
-  #hero,#results,#how,#product,#pricing,#proof,#faq,#cta-final{padding-left:4%;padding-right:4%}
+  #hero,#results,#ineligible,#how,#product,#pricing,#proof,#faq,#cta-final{padding-left:4%;padding-right:4%}
 }
 </style>
 </head>
@@ -255,11 +254,9 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
         <div class="trust-item"><div class="check-icon"></div> No commitment required</div>
       </div>
     </div>
-
     <div class="calc-card">
       <div class="calc-title">Check My Vehicle's Claim Value</div>
       <div class="calc-sub">Takes about 60 seconds · No obligation</div>
-
       <div class="fsec">Vehicle Information</div>
       <div class="frow">
         <div class="fg"><label>Vehicle Year</label><input type="number" id="f-year" placeholder="e.g. 2021" min="2000" max="2025"></div>
@@ -269,7 +266,6 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
         <div class="fg"><label>Vehicle Model</label><input type="text" id="f-model" placeholder="e.g. Camry"></div>
         <div class="fg"><label>Current Mileage</label><input type="number" id="f-mileage" placeholder="e.g. 45000"></div>
       </div>
-
       <div class="fsec">Accident & Repair Details</div>
       <div class="frow">
         <div class="fg"><label>Repair Cost ($)</label><input type="number" id="f-repair" placeholder="e.g. 8500"></div>
@@ -282,7 +278,7 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
       </div>
       <div class="frow">
         <div class="fg"><label>Who was at fault?</label>
-          <select id="f-fault"><option value="">Select</option><option>Other Driver</option><option>Shared Fault</option><option>Unknown</option></select>
+          <select id="f-fault"><option value="">Select</option><option>Other Driver</option><option>Shared Fault</option><option>I Was At Fault</option><option>Unknown</option></select>
         </div>
         <div class="fg"><label>Structural/frame damage?</label>
           <select id="f-structural"><option value="">Select</option><option>Yes</option><option>No</option><option>Unknown</option></select>
@@ -296,18 +292,16 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
           <select id="f-repaired"><option value="">Select</option><option>Yes — fully repaired</option><option>Yes — partially</option><option>Not yet</option></select>
         </div>
       </div>
-
       <div class="fsec">Your Contact Info</div>
       <div class="fg"><label>Full Name</label><input type="text" id="f-name" placeholder="Your full name"></div>
       <div class="fg"><label>Email Address</label><input type="email" id="f-email" placeholder="you@example.com"></div>
-
       <button class="btn-calc" onclick="calcDV()">Get My Free Claim Estimate →</button>
       <p class="form-privacy">🔒 Private & secure. We never sell your data.</p>
     </div>
   </div>
 </section>
 
-<!-- RESULTS -->
+<!-- RESULTS (eligible) -->
 <section id="results">
   <div class="results-inner">
     <div class="result-hero anim">
@@ -316,7 +310,6 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
       <div class="r-range" id="r-range">Typical range: $1,900 – $3,700</div>
       <div class="r-vehicle" id="r-vehicle">Based on your 2021 Toyota Camry · $8,500 in repairs</div>
     </div>
-
     <div class="result-grid anim">
       <div class="rc">
         <div class="rc-label">Your State</div>
@@ -326,7 +319,7 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
       <div class="rc">
         <div class="rc-label">Fault</div>
         <div class="rc-value" id="r-fault">Other Driver</div>
-        <div class="rc-sub">Strong claim position</div>
+        <div class="rc-sub" id="r-fault-sub">Strong claim position</div>
       </div>
       <div class="rc">
         <div class="rc-label">Structural Damage</div>
@@ -339,7 +332,6 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
         <div class="rc-sub">Used in 17c formula</div>
       </div>
     </div>
-
     <div class="cta-box anim">
       <div class="cta-title">Turn This Estimate Into a Paycheck</div>
       <div class="cta-sub">Your free estimate shows what you're owed. The Full Report gives you everything to actually collect it.</div>
@@ -351,6 +343,25 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
       </div>
       <button class="btn-report" onclick="openModal()">Get My Full DV Report — $49 →</button>
       <div class="r-guarantee">🛡️ Money-back guarantee if you don't recover more than $49</div>
+    </div>
+  </div>
+</section>
+
+<!-- INELIGIBLE RESULT -->
+<section id="ineligible">
+  <div class="ineligible-inner">
+    <div class="ineligible-card">
+      <div class="ineligible-icon">🚫</div>
+      <div class="ineligible-title" id="inel-title">You May Not Qualify for a DV Claim</div>
+      <div class="ineligible-reason" id="inel-reason"></div>
+      <div class="ineligible-note" id="inel-note"></div>
+    </div>
+    <div class="ineligible-tips">
+      <h3>What You Can Do Instead</h3>
+      <div id="inel-tips"></div>
+    </div>
+    <div style="text-align:center;margin-top:28px">
+      <button class="ineligible-back" onclick="goBack()">← Check a Different Vehicle</button>
     </div>
   </div>
 </section>
@@ -403,26 +414,11 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
         </div>
       </div>
       <div class="feats">
-        <div class="feat anim">
-          <div class="feat-icon">📋</div>
-          <div><div class="feat-title">Claim Eligibility Check</div><div class="feat-desc">We confirm your vehicle qualifies for a DV claim based on your state's laws, fault status, and accident details — so you know before you file.</div></div>
-        </div>
-        <div class="feat anim">
-          <div class="feat-icon">💰</div>
-          <div><div class="feat-title">Your Exact DV Estimate</div><div class="feat-desc">Calculated using your specific year, make, model, mileage, repair cost, and damage type. Not a generic range — your actual number.</div></div>
-        </div>
-        <div class="feat anim">
-          <div class="feat-icon">✉️</div>
-          <div><div class="feat-title">Pre-Filled Demand Letter</div><div class="feat-desc">A professional letter addressed to your insurer, pre-filled with your vehicle details, DV amount, and legal basis. Just print, sign, and send.</div></div>
-        </div>
-        <div class="feat anim">
-          <div class="feat-icon">⚖️</div>
-          <div><div class="feat-title">State Laws & Filing Deadline</div><div class="feat-desc">Exactly what your state says about DV claims, how long you have, and who you file against. No legal research required on your end.</div></div>
-        </div>
-        <div class="feat anim">
-          <div class="feat-icon">🗺️</div>
-          <div><div class="feat-title">Step-by-Step Filing Guide</div><div class="feat-desc">What to do, who to call, what to say, and what to do if the insurer low-balls you — in plain English. No jargon.</div></div>
-        </div>
+        <div class="feat anim"><div class="feat-icon">📋</div><div><div class="feat-title">Claim Eligibility Check</div><div class="feat-desc">We confirm your vehicle qualifies for a DV claim based on your state's laws, fault status, and accident details — so you know before you file.</div></div></div>
+        <div class="feat anim"><div class="feat-icon">💰</div><div><div class="feat-title">Your Exact DV Estimate</div><div class="feat-desc">Calculated using your specific year, make, model, mileage, repair cost, and damage type. Not a generic range — your actual number.</div></div></div>
+        <div class="feat anim"><div class="feat-icon">✉️</div><div><div class="feat-title">Pre-Filled Demand Letter</div><div class="feat-desc">A professional letter addressed to your insurer, pre-filled with your vehicle details, DV amount, and legal basis. Just print, sign, and send.</div></div></div>
+        <div class="feat anim"><div class="feat-icon">⚖️</div><div><div class="feat-title">State Laws & Filing Deadline</div><div class="feat-desc">Exactly what your state says about DV claims, how long you have, and who you file against. No legal research required on your end.</div></div></div>
+        <div class="feat anim"><div class="feat-icon">🗺️</div><div><div class="feat-title">Step-by-Step Filing Guide</div><div class="feat-desc">What to do, who to call, what to say, and what to do if the insurer low-balls you — in plain English. No jargon.</div></div></div>
       </div>
     </div>
   </div>
@@ -586,7 +582,164 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
 </div>
 
 <script>
-// ── CALCULATOR LOGIC (17c formula) ─────────────────────────────────────────
+// ── STATE RULES DATABASE ──────────────────────────────────────────────────
+// status: 'full' = fully claimable, 'third_party_only' = only vs at-fault 3rd party,
+//         'limited' = restricted/case-by-case, 'no_fault_blocked' = no-fault state blocks most claims
+const STATE_RULES = {
+  'Alabama':        { status:'full',            deadline:'6 years', notes:'Strong DV rights. Claims against at-fault driver\'s insurer.' },
+  'Alaska':         { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault party\'s insurer.' },
+  'Arizona':        { status:'full',            deadline:'2 years', notes:'DV claims recognized under tort law.' },
+  'Arkansas':       { status:'full',            deadline:'3 years', notes:'DV claims permitted against at-fault insurer.' },
+  'California':     { status:'full',            deadline:'3 years', notes:'Strong DV rights. Courts routinely award DV damages.' },
+  'Colorado':       { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'Connecticut':    { status:'full',            deadline:'2 years', notes:'DV claims permitted. File against at-fault party.' },
+  'Delaware':       { status:'full',            deadline:'2 years', notes:'DV claims recognized under property damage law.' },
+  'Florida':        { status:'third_party_only', deadline:'4 years', notes:'Florida is a no-fault state. DV claims only against the at-fault driver\'s insurer (not your own). You cannot file a first-party DV claim.' },
+  'Georgia':        { status:'full',            deadline:'4 years', notes:'Georgia has some of the strongest DV laws in the country. State Farm v. Mabry (2001) established clear DV rights.' },
+  'Hawaii':         { status:'third_party_only', deadline:'2 years', notes:'Hawaii is a no-fault state. DV claims only available against a third-party at-fault driver\'s insurer.' },
+  'Idaho':          { status:'full',            deadline:'2 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'Illinois':       { status:'full',            deadline:'5 years', notes:'DV claims permitted. Strong consumer protection laws.' },
+  'Indiana':        { status:'full',            deadline:'2 years', notes:'DV claims recognized under property damage statutes.' },
+  'Iowa':           { status:'full',            deadline:'5 years', notes:'DV claims permitted against at-fault insurer.' },
+  'Kansas':         { status:'third_party_only', deadline:'2 years', notes:'Kansas is a no-fault state. DV claims only available for third-party at-fault accidents.' },
+  'Kentucky':       { status:'third_party_only', deadline:'2 years', notes:'Kentucky is a choice no-fault state. DV claims available if you opted out of no-fault or for third-party claims.' },
+  'Louisiana':      { status:'full',            deadline:'1 year',  notes:'DV claims recognized but shorter 1-year statute of limitations — act quickly.' },
+  'Maine':          { status:'full',            deadline:'6 years', notes:'DV claims permitted. Long statute of limitations.' },
+  'Maryland':       { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'Massachusetts':  { status:'third_party_only', deadline:'3 years', notes:'Massachusetts is a no-fault state. DV only claimable against a third-party at-fault insurer, not your own.' },
+  'Michigan':       { status:'third_party_only', deadline:'3 years', notes:'Michigan\'s no-fault law is complex. First-party DV claims are blocked. Only available against an at-fault out-of-state driver or in limited tort situations.' },
+  'Minnesota':      { status:'third_party_only', deadline:'2 years', notes:'Minnesota is a no-fault state. DV claims only available against at-fault third-party insurers.' },
+  'Mississippi':    { status:'full',            deadline:'3 years', notes:'DV claims permitted against at-fault insurer.' },
+  'Missouri':       { status:'full',            deadline:'5 years', notes:'DV claims recognized. Strong property damage rights.' },
+  'Montana':        { status:'full',            deadline:'3 years', notes:'DV claims permitted. File against at-fault insurer.' },
+  'Nebraska':       { status:'full',            deadline:'4 years', notes:'DV claims recognized under Nebraska tort law.' },
+  'Nevada':         { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault driver\'s insurer.' },
+  'New Hampshire':  { status:'full',            deadline:'3 years', notes:'DV claims permitted. File against at-fault insurer.' },
+  'New Jersey':     { status:'third_party_only', deadline:'6 years', notes:'New Jersey is a choice no-fault state. DV available if you have "unlimited right to sue" option, or for third-party claims.' },
+  'New Mexico':     { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'New York':       { status:'third_party_only', deadline:'3 years', notes:'New York is a no-fault state. DV claims only available against a third-party at-fault driver\'s insurer, not your own.' },
+  'North Carolina': { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'North Dakota':   { status:'third_party_only', deadline:'6 years', notes:'North Dakota is a no-fault state. DV claims only against at-fault third-party insurers.' },
+  'Ohio':           { status:'full',            deadline:'2 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'Oklahoma':       { status:'full',            deadline:'2 years', notes:'DV claims permitted under Oklahoma property damage law.' },
+  'Oregon':         { status:'full',            deadline:'2 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'Pennsylvania':   { status:'third_party_only', deadline:'2 years', notes:'Pennsylvania is a choice no-fault state. DV available if you chose "full tort" option. Limited tort policyholders may be blocked.' },
+  'Rhode Island':   { status:'full',            deadline:'3 years', notes:'DV claims permitted. File against at-fault insurer.' },
+  'South Carolina': { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'South Dakota':   { status:'full',            deadline:'3 years', notes:'DV claims recognized under South Dakota tort law.' },
+  'Tennessee':      { status:'full',            deadline:'3 years', notes:'DV claims permitted. File against at-fault insurer.' },
+  'Texas':          { status:'full',            deadline:'2 years', notes:'DV claims strongly recognized in Texas. File against at-fault driver\'s insurer.' },
+  'Utah':           { status:'third_party_only', deadline:'3 years', notes:'Utah is a no-fault state. DV claims only available against at-fault third-party insurers.' },
+  'Vermont':        { status:'full',            deadline:'3 years', notes:'DV claims permitted. File against at-fault insurer.' },
+  'Virginia':       { status:'full',            deadline:'5 years', notes:'DV claims recognized. Strong consumer rights.' },
+  'Washington':     { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'West Virginia':  { status:'full',            deadline:'2 years', notes:'DV claims permitted. File against at-fault insurer.' },
+  'Wisconsin':      { status:'full',            deadline:'3 years', notes:'DV claims recognized. File against at-fault insurer.' },
+  'Wyoming':        { status:'full',            deadline:'4 years', notes:'DV claims permitted. File against at-fault insurer.' }
+};
+
+// ── ELIGIBILITY CHECK ─────────────────────────────────────────────────────
+function checkEligibility(data) {
+  const { year, make, mileage, repair, state, fault, prior, repaired } = data;
+  const stateRule = STATE_RULES[state] || { status:'full', deadline:'3 years', notes:'' };
+  const age = new Date().getFullYear() - parseInt(year);
+  const miles = parseInt(mileage) || 0;
+  const repairAmt = parseInt(repair) || 0;
+
+  // HARD BLOCKS — customer should not pay
+  if (fault === 'I Was At Fault') {
+    return {
+      eligible: false,
+      title: 'You Cannot File a DV Claim — You Were At Fault',
+      reason: 'Diminished value claims are filed against the at-fault driver\'s insurance company. If you caused the accident, your own insurer is not required to pay DV, and you cannot file a claim against yourself.',
+      note: 'This is the most common reason DV claims are denied. We\'re showing you this now so you don\'t pay for a report you can\'t use.',
+      tips: [
+        'If fault is disputed, consult an attorney — you may have partial recovery rights.',
+        'Check if the other driver bears any shared responsibility for the accident.',
+        'In some states, even partial at-fault drivers can recover a reduced DV amount.'
+      ]
+    };
+  }
+
+  if (age > 10) {
+    return {
+      eligible: false,
+      title: 'Your Vehicle Is Too Old for a DV Claim',
+      reason: `Your ${year} vehicle is ${age} years old. Vehicles older than 10 years typically have little to no measurable diminished value because their pre-accident market value is already significantly depreciated.`,
+      note: 'Insurance companies and courts rarely award DV on older vehicles. Filing a claim would likely result in a denial or a $0 offer.',
+      tips: [
+        'Focus instead on ensuring all repairs were completed to manufacturer standards.',
+        'Request a full repair receipt and document all damage — useful if you sell the vehicle.',
+        'If the accident resulted in total loss consideration, that\'s a separate recoverable amount.'
+      ]
+    };
+  }
+
+  if (miles > 150000) {
+    return {
+      eligible: false,
+      title: 'High Mileage Significantly Limits Your DV Claim',
+      reason: `With ${miles.toLocaleString()} miles, your vehicle\'s pre-accident market value is substantially reduced. The 17c formula returns $0 for vehicles over 100,000 miles, and insurance companies use similar thresholds.`,
+      note: 'Filing a DV claim on a high-mileage vehicle almost always results in a denial or a nominal offer of $50–$200, not worth the effort.',
+      tips: [
+        'Ensure all repairs were properly documented in case you sell the vehicle.',
+        'If your insurer is disputing repair quality, that\'s a separate issue worth pursuing.',
+        'Consider consulting an attorney if you believe the accident caused significant damage beyond normal wear.'
+      ]
+    };
+  }
+
+  if (repairAmt < 500) {
+    return {
+      eligible: false,
+      title: 'Repair Cost Too Low for a Viable DV Claim',
+      reason: `Your reported repair cost of $${repairAmt.toLocaleString()} is below the minimum threshold for a viable DV claim. Most insurers require at least $500–$1,000 in documented repairs before considering a DV claim.`,
+      note: 'Minor damage repairs typically result in little to no measurable diminished value.',
+      tips: [
+        'If repairs are still ongoing, come back once you have the final repair invoice.',
+        'Keep all repair documentation — it may be useful if additional damage is discovered.',
+        'Consider whether the accident caused any mechanical damage not yet repaired.'
+      ]
+    };
+  }
+
+  if (repaired === 'Not yet') {
+    return {
+      eligible: false,
+      title: 'Vehicle Must Be Repaired Before Filing a DV Claim',
+      reason: 'A diminished value claim is based on the difference in value after repairs are complete. You cannot file a DV claim until the vehicle has been fully repaired and you have the final repair invoice.',
+      note: 'Come back once repairs are complete — your eligibility and estimate will be much more accurate.',
+      tips: [
+        'Document all damage thoroughly before repairs begin — take photos from multiple angles.',
+        'Keep all repair receipts and estimates from the shop.',
+        'Once fully repaired, return to ClaimCheck for your free DV estimate.',
+        'Your DV claim window starts from the accident date, not the repair date.'
+      ]
+    };
+  }
+
+  // NO-FAULT STATE + AT FAULT or UNKNOWN — warn but allow
+  if (stateRule.status === 'third_party_only' && fault !== 'Other Driver') {
+    return {
+      eligible: false,
+      title: `DV Claims Are Restricted in ${state}`,
+      reason: `${state} is a no-fault or restricted state. DV claims are only available when filing against an at-fault third-party driver\'s insurance. Since you indicated the fault is "${fault || 'unknown'}", a DV claim may not be available in your situation.`,
+      note: stateRule.notes,
+      tips: [
+        'If fault is still being determined, consult your insurer or an attorney.',
+        'If the other driver is confirmed at fault, you may still qualify — re-check once fault is determined.',
+        `Filing deadline in ${state} is ${stateRule.deadline} — don\'t delay if fault is later confirmed.`
+      ]
+    };
+  }
+
+  // PRIOR ACCIDENT WARNING (not a hard block, but reduce and warn in results)
+  // Handled in the results display with reduced estimate
+
+  return { eligible: true, stateRule };
+}
+
+// ── CALCULATOR LOGIC (17c formula) ───────────────────────────────────────
 function getVehicleBase(year, make) {
   const age = new Date().getFullYear() - parseInt(year);
   let base = age <= 1 ? 33000 : age <= 3 ? 28000 : age <= 5 ? 22000 : age <= 8 ? 16000 : 10000;
@@ -598,22 +751,48 @@ function mileageMult(m) {
   m = parseInt(m) || 0;
   return m <= 20000 ? 1.0 : m <= 40000 ? 0.80 : m <= 60000 ? 0.60 : m <= 80000 ? 0.40 : m <= 100000 ? 0.20 : 0;
 }
-function damageMult(s) { return s === 'Yes' ? 1.0 : s === 'No' ? 0.50 : 0.75; }
+function damageMult(s) {
+  return s === 'Yes' ? 1.0 : s === 'No' ? 0.50 : 0.75;
+}
 
 function calcDV() {
   const v = id => document.getElementById(id).value;
   const year = v('f-year'), make = v('f-make'), model = v('f-model'),
-    mileage = v('f-mileage'), repair = v('f-repair'), state = v('f-state'),
-    fault = v('f-fault'), structural = v('f-structural'),
-    prior = v('f-prior'), name = v('f-name'), email = v('f-email');
+        mileage = v('f-mileage'), repair = v('f-repair'), state = v('f-state'),
+        fault = v('f-fault'), structural = v('f-structural'), prior = v('f-prior'),
+        repaired = v('f-repaired'), name = v('f-name'), email = v('f-email');
 
   if (!year || !make || !model || !repair || !state || !name || !email) {
-    alert('Please fill in all required fields to get your estimate.'); return;
+    alert('Please fill in all required fields to get your estimate.');
+    return;
   }
 
+  const data = { year, make, model, mileage, repair, state, fault, structural, prior, repaired, name, email };
+  const eligibility = checkEligibility(data);
+
+  if (!eligibility.eligible) {
+    // Show ineligible screen
+    document.getElementById('inel-title').textContent = eligibility.title;
+    document.getElementById('inel-reason').textContent = eligibility.reason;
+    document.getElementById('inel-note').textContent = eligibility.note || '';
+
+    const tipsHtml = (eligibility.tips || []).map(t =>
+      `<div class="tip-item"><div class="tip-dot"></div>${t}</div>`
+    ).join('');
+    document.getElementById('inel-tips').innerHTML = tipsHtml;
+
+    document.getElementById('hero').style.display = 'none';
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('ineligible').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  // Calculate DV
   const base = getVehicleBase(year, make);
   let dv = base * 0.10 * damageMult(structural) * mileageMult(mileage);
   if (prior === 'Yes') dv *= 0.72;
+
   const mid = Math.round(dv / 50) * 50;
   const low = Math.round(mid * 0.67 / 50) * 50;
   const high = Math.round(mid * 1.30 / 50) * 50;
@@ -629,21 +808,55 @@ function calcDV() {
   set('r-structural', structural || 'Unknown');
   set('r-repair', '$' + parseInt(repair).toLocaleString());
 
-  const noFirst = ['Michigan','Hawaii','North Dakota'];
+  // Fault sub-label
+  const faultSub = fault === 'Other Driver' ? 'Strong claim position'
+    : fault === 'Shared Fault' ? 'Partial recovery possible'
+    : 'Verify fault before filing';
+  set('r-fault-sub', faultSub);
+
+  // State claimability
+  const stateRule = eligibility.stateRule;
   const cl = document.getElementById('r-claimable');
-  if (noFirst.includes(state)) { cl.textContent = '⚠ Third-party claims only'; cl.style.color = '#d97706'; }
-  else { cl.textContent = 'DV claims claimable ✓'; cl.style.color = 'var(--green)'; }
+  if (stateRule.status === 'third_party_only') {
+    cl.textContent = '⚠ Third-party claims only';
+    cl.style.color = '#d97706';
+  } else if (stateRule.status === 'limited') {
+    cl.textContent = '⚠ Limited — verify eligibility';
+    cl.style.color = '#d97706';
+  } else {
+    cl.textContent = 'DV claims claimable ✓';
+    cl.style.color = 'var(--green)';
+  }
+
+  // Prior accident warning
+  if (prior === 'Yes') {
+    const box = document.querySelector('.cta-box');
+    if (!document.getElementById('prior-warning')) {
+      const warn = document.createElement('div');
+      warn.id = 'prior-warning';
+      warn.style.cssText = 'background:#fffbeb;border:1.5px solid #f59e0b;border-radius:10px;padding:14px 18px;margin-bottom:18px;font-size:.85rem;color:#92400e;text-align:left;';
+      warn.innerHTML = '⚠️ <strong>Note:</strong> Your vehicle\'s prior accident history reduces your DV estimate by ~28%. Some insurers may use this to further limit your claim. Your report will address this directly.';
+      box.insertBefore(warn, box.firstChild);
+    }
+  }
 
   document.getElementById('hero').style.display = 'none';
+  document.getElementById('ineligible').style.display = 'none';
   document.getElementById('results').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
   setTimeout(() => {
-    document.querySelectorAll('#results .anim').forEach((el, i) =>
-      setTimeout(() => el.classList.add('in'), i * 160));
+    document.querySelectorAll('#results .anim').forEach((el, i) => setTimeout(() => el.classList.add('in'), i * 160));
   }, 80);
 }
 
 function set(id, val) { document.getElementById(id).textContent = val; }
+
+function goBack() {
+  document.getElementById('ineligible').style.display = 'none';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('hero').style.display = 'flex';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
 // ── MODAL ─────────────────────────────────────────────────────────────────
 function openModal() {
@@ -655,10 +868,7 @@ function openModal() {
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
-function goToStripe() {
-
-  window.location.href = 'https://buy.stripe.com/test_5kQ00iccdacV51B2gP2B202';
-}
+function goToStripe() { window.location.href = 'https://buy.stripe.com/test_5kQ00iccdacV51B2gP2B202'; }
 document.getElementById('modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
 
 // ── FAQ ───────────────────────────────────────────────────────────────────
@@ -670,7 +880,7 @@ function toggleFaq(btn) {
   if (!open) { ans.classList.add('open'); btn.classList.add('open'); }
 }
 
-// ── SCROLL ANIMATIONS ────────────────────────────────────────────────────
+// ── SCROLL ANIMATIONS ─────────────────────────────────────────────────────
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
 }, { threshold: 0.12 });
