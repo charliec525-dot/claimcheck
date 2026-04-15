@@ -475,6 +475,29 @@ function calcDV(){
   const mid=Math.round(dv/50)*50,low=Math.round(mid*.67/50)*50,high=Math.round(mid*1.30/50)*50;
   window._dv={year,make,model,mileage,repair,state,fault,structural,prior,name,email,mid,low,high};
 
+ // ── LEAD CAPTURE ──────────────────────────────────────────────────────────
+ const _noFirst = ['Michigan','Hawaii','North Dakota'];
+ const _eligible = !_noFirst.includes(state) ? 'Yes' : 'No';
+ fetch('https://hook.us2.make.com/cby5h4qh9e9nb6tsr8nuexndqe5ignhf', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({
+     name,
+     email,
+     state,
+     vehicle_year: year,
+     vehicle_make: make,
+     vehicle_model: model,
+     mileage,
+     repair_cost: repair,
+     fault,
+      dv_estimate: mid,
+     eligible: _eligible,
+     ineligible_reason: _eligible === 'No' ? 'State does not allow first-party DV claims' : '',
+     submitted_at: new Date().toISOString()
+   })
+ });
+
   // Send lead to Make.com → Google Sheets
   sendLead({...data,mid,eligible:true});
 
