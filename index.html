@@ -500,4 +500,15 @@ function openModal(){const d=window._dv||{};document.getElementById('m-amount').
 function closeModal(){document.getElementById('modal').classList.remove('open');}
 function goToStripe(){window.location.href='https://buy.stripe.com/test_5kQ00iccdacV51B2gP2B202';}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
-function toggleFaq(btn){const ans=btn.nextElementSibling;const open=ans.classList.contains('open');document.querySelectorAll('.fq-ans').forEach(a=>a.classList.remove('open'));document.querySelectorAll('.fq-btn').forEach
+function toggleFaq(btn){const ans=btn.nextElementSibling;const open=ans.classList.contains('open');document.querySelectorAll('.fq-ans').forEach(a=>a.classList.remove('open'));document.querySelectorAll('.fq-btn').forEach(b=>b.classList.remove('open'));if(!open){ans.classList.add('open');btn.classList.add('open');}}
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:0.12});
+document.querySelectorAll('#how .anim,#product .anim,#pricing .anim,#proof .anim').forEach(el=>obs.observe(el));
+window.calcDV=calcDV;
+window.openModal=openModal;
+window.closeModal=closeModal;
+window.goToStripe=goToStripe;
+window.toggleFaq=toggleFaq;
+window.goBack=goBack;
+</script>
+</body>
+</html>
