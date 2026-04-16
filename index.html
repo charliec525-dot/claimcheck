@@ -402,7 +402,7 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
 // After setting up your Make.com "Lead Capture" scenario, replace the URL below
 // with your new webhook URL from that scenario's Custom Webhook module
 // ══════════════════════════════════════════════════════════════════════════
-const LEAD_WEBHOOK_URL = 'https://hook.us2.make.com/8kc1hbx6bud3puc8qq5xal164gzh5ry5';
+const LEAD_WEBHOOK_URL = 'https://hook.us2.make.com/cby5h4qh9e9nb6tsr8nuexndqe5ignhf';
 
 function sendLead(data) {
   if (!LEAD_WEBHOOK_URL || LEAD_WEBHOOK_URL.includes('PASTE_YOUR')) return;
@@ -474,29 +474,6 @@ function calcDV(){
   if(prior==='Yes')dv*=0.72;
   const mid=Math.round(dv/50)*50,low=Math.round(mid*.67/50)*50,high=Math.round(mid*1.30/50)*50;
   window._dv={year,make,model,mileage,repair,state,fault,structural,prior,name,email,mid,low,high};
-
- // ── LEAD CAPTURE ──────────────────────────────────────────────────────────
- const _noFirst = ['Michigan','Hawaii','North Dakota'];
- const _eligible = !_noFirst.includes(state) ? 'Yes' : 'No';
- fetch('https://hook.us2.make.com/cby5h4qh9e9nb6tsr8nuexndqe5ignhf', {
-   method: 'POST',
-   headers: { 'Content-Type': 'application/json' },
-   body: JSON.stringify({
-     name,
-     email,
-     state,
-     vehicle_year: year,
-     vehicle_make: make,
-     vehicle_model: model,
-     mileage,
-     repair_cost: repair,
-     fault,
-      dv_estimate: mid,
-     eligible: _eligible,
-     ineligible_reason: _eligible === 'No' ? 'State does not allow first-party DV claims' : '',
-     submitted_at: new Date().toISOString()
-   })
- });
 
   // Send lead to Make.com → Google Sheets
   sendLead({...data,mid,eligible:true});
