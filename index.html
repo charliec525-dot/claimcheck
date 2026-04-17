@@ -368,6 +368,9 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
       <div class="fq"><button class="fq-btn" onclick="toggleFaq(this)">What's your money-back guarantee?<span class="fq-icon">+</span></button><div class="fq-ans"><p>Simple: use our report and demand letter and don't recover more than what you paid — email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="abd8dedbdbc4d9dfebc8c7cac2c6c8c3cec8c085c8c4c6">[email&#160;protected]</a> for a full refund. No questions asked.</p></div></div>
     </div>
   </div>
+  <div style="text-align:center;margin-top:40px;padding-bottom:8px;">
+    <p style="font-size:1rem;color:#555;">Still have questions? Email us at <a href="mailto:support@checkdiminishedvalue.com" style="color:#2563eb;font-weight:600;">support@checkdiminishedvalue.com</a></p>
+  </div>
 </section>
 
 <section id="cta-final">
@@ -498,7 +501,36 @@ function set(id,val){document.getElementById(id).textContent=val;}
 function goBack(){document.getElementById('ineligible').style.display='none';document.getElementById('results').style.display='none';document.getElementById('hero').style.display='flex';window.scrollTo({top:0,behavior:'smooth'});}
 function openModal(){const d=window._dv||{};document.getElementById('m-amount').textContent=d.mid?'$'+d.mid.toLocaleString():'';document.getElementById('m-vehicle').textContent=d.make?d.year+' '+d.make+' '+d.model:'';if(d.name)document.getElementById('m-name').value=d.name;if(d.email)document.getElementById('m-email').value=d.email;document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
-function goToStripe(){window.location.href='https://buy.stripe.com/test_5kQ00iccdacV51B2gP2B202';}
+function goToStripe(tier) {
+  const baseUrl = tier === 'standard'
+    ? 'https://buy.stripe.com/test_5kQ00iccdacV51B2gP2B202'
+    : 'https://buy.stripe.com/test_3cI7sKgstetbalVf3B2B203';
+  const f = formData || {};
+  const params = new URLSearchParams({
+    prefilled_email: f.email || '',
+    client_reference_id: f.report_id || '',
+    'metadata[name]': f.name || '',
+    'metadata[vehicle_year]': f.vehicle_year || '',
+    'metadata[vehicle_make]': f.vehicle_make || '',
+    'metadata[vehicle_model]': f.vehicle_model || '',
+    'metadata[state]': f.state || '',
+    'metadata[mileage]': f.mileage || '',
+    'metadata[repair_cost]': f.repair_cost || '',
+    'metadata[dv_estimate]': f.dv_estimate || '',
+    'metadata[dv_low]': f.dv_low || '',
+    'metadata[dv_high]': f.dv_high || '',
+    'metadata[report_id]': f.report_id || '',
+    'metadata[accident_date]': f.accident_date || '',
+    'metadata[structural_damage]': f.structural_damage || '',
+    'metadata[prior_accident]': f.prior_accident || '',
+    'metadata[fault]': f.fault || '',
+    'metadata[base_value]': f.base_value || '',
+    'metadata[claimable]': f.claimable || '',
+    'metadata[filing_deadline]': f.filing_deadline || '',
+    'metadata[state_law_notes]': (f.state_law_notes || '').substring(0, 490),
+  });
+  window.location.href = baseUrl + '?' + params.toString();
+}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
 function toggleFaq(btn){const ans=btn.nextElementSibling;const open=ans.classList.contains('open');document.querySelectorAll('.fq-ans').forEach(a=>a.classList.remove('open'));document.querySelectorAll('.fq-btn').forEach(b=>b.classList.remove('open'));if(!open){ans.classList.add('open');btn.classList.add('open');}}
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:0.12});
