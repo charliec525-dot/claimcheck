@@ -218,26 +218,30 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
       </div>
       <div class="fsec">Accident & Repair Details</div>
       <div class="frow">
+        <div class="fg"><label>Accident Date</label><input type="date" id="f-accident-date"></div>
         <div class="fg"><label>Repair Cost ($)</label><input type="number" id="f-repair" placeholder="e.g. 8500"></div>
+      </div>
+      <div class="frow">
         <div class="fg"><label>State of Accident</label>
           <select id="f-state"><option value="">Select a state</option><option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option><option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option><option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option><option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option><option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option><option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option><option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option><option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option><option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option><option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option><option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option><option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option><option>Wisconsin</option><option>Wyoming</option></select>
         </div>
-      </div>
-      <div class="frow">
         <div class="fg"><label>Who was at fault?</label>
           <select id="f-fault"><option value="">Select</option><option>Other Driver</option><option>Shared Fault</option><option>I Was At Fault</option><option>Unknown</option></select>
         </div>
+      </div>
+      <div class="frow">
         <div class="fg"><label>Structural/frame damage?</label>
           <select id="f-structural"><option value="">Select</option><option>Yes</option><option>No</option><option>Unknown</option></select>
         </div>
-      </div>
-      <div class="frow">
         <div class="fg"><label>Prior accident history?</label>
           <select id="f-prior"><option value="">Select</option><option>No</option><option>Yes</option></select>
         </div>
+      </div>
+      <div class="frow">
         <div class="fg"><label>Vehicle repaired?</label>
           <select id="f-repaired"><option value="">Select</option><option>Yes — fully repaired</option><option>Yes — partially</option><option>Not yet</option></select>
         </div>
+        <div class="fg"></div>
       </div>
       <div class="fsec">Your Contact Info</div>
       <div class="fg"><label>Full Name</label><input type="text" id="f-name" placeholder="Your full name"></div>
@@ -337,8 +341,8 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
     <div class="pricing-head"><div class="sec-badge">Pricing</div><h2 class="sec-title">Simple, Transparent Pricing</h2><p style="font-size:.9rem;color:var(--gray);margin-top:8px">Pay once. Get your report instantly. No subscriptions.</p></div>
     <div class="pricing-grid">
       <div class="pc anim"><div class="pc-name">Free</div><div class="pc-price"><sup>$</sup>0</div><div class="pc-desc">Instant estimate to see what you may be owed</div><ul class="pc-feats"><li><div class="pck"></div> DV estimate range</li><li><div class="pck"></div> Eligibility check</li><li style="color:var(--gray2)"><div class="pck dim"></div> Demand letter</li><li style="color:var(--gray2)"><div class="pck dim"></div> State laws & deadline</li><li style="color:var(--gray2)"><div class="pck dim"></div> Filing guide</li></ul><a href="#hero" class="btn-pc outline">Get Free Estimate</a></div>
-      <div class="pc featured anim"><div class="pc-badge">Most Popular</div><div class="pc-name">Standard Report</div><div class="pc-price"><sup>$</sup>49</div><div class="pc-desc">Everything you need to file and win your DV claim</div><ul class="pc-feats"><li><div class="pck"></div> DV estimate + full breakdown</li><li><div class="pck"></div> Pre-filled demand letter</li><li><div class="pck"></div> State laws & filing deadline</li><li><div class="pck"></div> 6-step filing guide</li><li><div class="pck"></div> Instant PDF delivery</li></ul><a href="https://buy.stripe.com/9B600ldaigIvd8v0gj4gg01" class="btn-pc primary">Get Standard Report →</a></div>
-      <div class="pc anim"><div class="pc-name">Attorney-Ready</div><div class="pc-price"><sup>$</sup>149</div><div class="pc-desc">For serious claims or insurers that push back hard</div><ul class="pc-feats"><li><div class="pck"></div> Everything in Standard</li><li><div class="pck"></div> Comparable market evidence</li><li><div class="pck"></div> Professional letterhead</li><li><div class="pck"></div> Formatted for legal use</li><li><div class="pck"></div> Report ID + cover page</li></ul><a href="https://buy.stripe.com/4gMaEZ7PY0Jx1pN6EH4gg00" class="btn-pc outline">Get Attorney Report →</a></div>
+      <div class="pc featured anim"><div class="pc-badge">Most Popular</div><div class="pc-name">Standard Report</div><div class="pc-price"><sup>$</sup>49</div><div class="pc-desc">Everything you need to file and win your DV claim</div><ul class="pc-feats"><li><div class="pck"></div> DV estimate + full breakdown</li><li><div class="pck"></div> Pre-filled demand letter</li><li><div class="pck"></div> State laws & filing deadline</li><li><div class="pck"></div> 6-step filing guide</li><li><div class="pck"></div> Instant PDF delivery</li></ul><button type="button" onclick="goToStripe('standard')" class="btn-pc primary">Get Standard Report →</button></div>
+      <div class="pc anim"><div class="pc-name">Attorney-Ready</div><div class="pc-price"><sup>$</sup>149</div><div class="pc-desc">For serious claims or insurers that push back hard</div><ul class="pc-feats"><li><div class="pck"></div> Everything in Standard</li><li><div class="pck"></div> Comparable market evidence</li><li><div class="pck"></div> Professional letterhead</li><li><div class="pck"></div> Formatted for legal use</li><li><div class="pck"></div> Report ID + cover page</li></ul><button type="button" onclick="goToStripe('attorney')" class="btn-pc outline">Get Attorney Report →</button></div>
     </div>
     <p style="text-align:center;font-size:.78rem;color:var(--gray);margin-top:28px">🛡️ Money-back guarantee if you don't recover more than the report cost using our materials.</p>
   </div>
@@ -368,9 +372,6 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
       <div class="fq"><button class="fq-btn" onclick="toggleFaq(this)">What's your money-back guarantee?<span class="fq-icon">+</span></button><div class="fq-ans"><p>Simple: use our report and demand letter and don't recover more than what you paid — email <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="abd8dedbdbc4d9dfebc8c7cac2c6c8c3cec8c085c8c4c6">[email&#160;protected]</a> for a full refund. No questions asked.</p></div></div>
     </div>
   </div>
-  <div style="text-align:center;margin-top:40px;padding-bottom:8px;">
-    <p style="font-size:1rem;color:#555;">Still have questions? Email us at <a href="mailto:support@checkdiminishedvalue.com" style="color:#2563eb;font-weight:600;">support@checkdiminishedvalue.com</a></p>
-  </div>
 </section>
 
 <section id="cta-final">
@@ -394,12 +395,12 @@ footer{background:var(--navy);padding:44px 5%;text-align:center}
     <p>Confirm your details below. Your full report — with your pre-filled demand letter, state laws, and filing guide — will be delivered as a PDF instantly.</p>
     <input type="text" id="m-name" placeholder="Full name">
     <input type="email" id="m-email" placeholder="Email address">
-    <button class="btn-modal" onclick="goToStripe()">Get My Full Report — $49 →</button>
+    <button class="btn-modal" onclick="goToStripe('standard')">Get My Full Report — $49 →</button>
     <div class="modal-fine">🔒 Secure payment via Stripe · Instant PDF delivery · Money-back guarantee</div>
   </div>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ══════════════════════════════════════════════════════════════════════════
 // LEAD CAPTURE WEBHOOK
 // After setting up your Make.com "Lead Capture" scenario, replace the URL below
@@ -456,7 +457,7 @@ function damageMult(s){return s==='Yes'?1.0:s==='No'?.50:.75;}
 
 function calcDV(){
   const v=id=>document.getElementById(id).value;
-  const year=v('f-year'),make=v('f-make'),model=v('f-model'),mileage=v('f-mileage'),repair=v('f-repair'),state=v('f-state'),fault=v('f-fault'),structural=v('f-structural'),prior=v('f-prior'),repaired=v('f-repaired'),name=v('f-name'),email=v('f-email');
+  const year=v('f-year'),make=v('f-make'),model=v('f-model'),mileage=v('f-mileage'),repair=v('f-repair'),state=v('f-state'),fault=v('f-fault'),structural=v('f-structural'),prior=v('f-prior'),repaired=v('f-repaired'),name=v('f-name'),email=v('f-email'),accidentDate=v('f-accident-date');
   if(!year||!make||!model||!repair||!state||!name||!email){alert('Please fill in all required fields.');return;}
   const data={year,make,model,mileage,repair,state,fault,structural,prior,repaired,name,email};
   const elig=checkEligibility(data);
@@ -476,7 +477,7 @@ function calcDV(){
   let dv=base*0.10*damageMult(structural)*mileageMult(mileage);
   if(prior==='Yes')dv*=0.72;
   const mid=Math.round(dv/50)*50,low=Math.round(mid*.67/50)*50,high=Math.round(mid*1.30/50)*50;
-  window._dv={year,make,model,mileage,repair,state,fault,structural,prior,name,email,mid,low,high};
+  window._dv={year,make,model,mileage,repair,state,fault,structural,prior,name,email,mid,low,high,base:Math.round(base),stateRule:elig.stateRule,accidentDate};
 
   // Send lead to Make.com → Google Sheets
   sendLead({...data,mid,eligible:true});
@@ -501,46 +502,63 @@ function set(id,val){document.getElementById(id).textContent=val;}
 function goBack(){document.getElementById('ineligible').style.display='none';document.getElementById('results').style.display='none';document.getElementById('hero').style.display='flex';window.scrollTo({top:0,behavior:'smooth'});}
 function openModal(){const d=window._dv||{};document.getElementById('m-amount').textContent=d.mid?'$'+d.mid.toLocaleString():'';document.getElementById('m-vehicle').textContent=d.make?d.year+' '+d.make+' '+d.model:'';if(d.name)document.getElementById('m-name').value=d.name;if(d.email)document.getElementById('m-email').value=d.email;document.getElementById('modal').classList.add('open');}
 function closeModal(){document.getElementById('modal').classList.remove('open');}
-function goToStripe(tier) {
-  const baseUrl = tier === 'standard'
-    ? 'https://buy.stripe.com/test_5kQ00iccdacV51B2gP2B202'
-    : 'https://buy.stripe.com/test_3cI7sKgstetbalVf3B2B203';
-  const f = formData || {};
+function goToStripe(plan){
+  plan = plan || 'standard';
+  const LINKS = {
+    standard: 'https://buy.stripe.com/9B600ldaigIvd8v0gj4gg01',
+    attorney: 'https://buy.stripe.com/4gMaEZ7PY0Jx1pN6EH4gg00'
+  };
+  const base = LINKS[plan] || LINKS.standard;
+  const d = window._dv || {};
+
+  // If user hasn't run the estimate yet, send them to the form first
+  if(!d.mid){
+    alert('Please fill out the free estimate first so we can personalize your report.');
+    document.getElementById('results') && (document.getElementById('results').style.display='none');
+    document.getElementById('ineligible') && (document.getElementById('ineligible').style.display='none');
+    document.getElementById('hero').style.display='flex';
+    window.scrollTo({top:0,behavior:'smooth'});
+    return;
+  }
+
+  // Derive state law context
+  const sr = d.stateRule || {status:'full',deadline:'3 years'};
+  const claimable = sr.status === 'third_party_only' ? 'Third-party only' : 'Yes';
+  const stateLawNotes = sr.status === 'third_party_only'
+    ? `${d.state} restricts DV claims to third-party (at-fault driver's) insurers only. First-party DV claims are generally not available.`
+    : `${d.state} allows both first-party and third-party DV claims. Filing deadline: ${sr.deadline} from accident date.`;
+
+  // Generate a report ID
+  const reportId = 'DV-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substr(2,5).toUpperCase();
+
   const params = new URLSearchParams({
-    prefilled_email: f.email || '',
-    client_reference_id: f.report_id || '',
-    'metadata[name]': f.name || '',
-    'metadata[vehicle_year]': f.vehicle_year || '',
-    'metadata[vehicle_make]': f.vehicle_make || '',
-    'metadata[vehicle_model]': f.vehicle_model || '',
-    'metadata[state]': f.state || '',
-    'metadata[mileage]': f.mileage || '',
-    'metadata[repair_cost]': f.repair_cost || '',
-    'metadata[dv_estimate]': f.dv_estimate || '',
-    'metadata[dv_low]': f.dv_low || '',
-    'metadata[dv_high]': f.dv_high || '',
-    'metadata[report_id]': f.report_id || '',
-    'metadata[accident_date]': f.accident_date || '',
-    'metadata[structural_damage]': f.structural_damage || '',
-    'metadata[prior_accident]': f.prior_accident || '',
-    'metadata[fault]': f.fault || '',
-    'metadata[base_value]': f.base_value || '',
-    'metadata[claimable]': f.claimable || '',
-    'metadata[filing_deadline]': f.filing_deadline || '',
-    'metadata[state_law_notes]': (f.state_law_notes || '').substring(0, 490),
+    prefilled_email: d.email || '',
+    'metadata[name]':              d.name || '',
+    'metadata[vehicle_year]':      d.year || '',
+    'metadata[vehicle_make]':      d.make || '',
+    'metadata[vehicle_model]':     d.model || '',
+    'metadata[state]':             d.state || '',
+    'metadata[mileage]':           d.mileage || '',
+    'metadata[repair_cost]':       d.repair || '',
+    'metadata[dv_estimate]':       d.mid || '',
+    'metadata[dv_low]':            d.low || '',
+    'metadata[dv_high]':           d.high || '',
+    'metadata[report_id]':         reportId,
+    'metadata[accident_date]':     d.accidentDate || '',
+    'metadata[structural_damage]': d.structural || 'Unknown',
+    'metadata[prior_accident]':    d.prior || 'No',
+    'metadata[fault]':              d.fault || 'Unknown',
+    'metadata[base_value]':        d.base || '',
+    'metadata[claimable]':         claimable,
+    'metadata[filing_deadline]':   sr.deadline || '3 years',
+    'metadata[state_law_notes]':   stateLawNotes,
+    'metadata[plan]':              plan
   });
-  window.location.href = baseUrl + '?' + params.toString();
+
+  window.location.href = base + '?' + params.toString();
 }
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal();});
 function toggleFaq(btn){const ans=btn.nextElementSibling;const open=ans.classList.contains('open');document.querySelectorAll('.fq-ans').forEach(a=>a.classList.remove('open'));document.querySelectorAll('.fq-btn').forEach(b=>b.classList.remove('open'));if(!open){ans.classList.add('open');btn.classList.add('open');}}
-const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});},{threshold:0.12});
-document.querySelectorAll('#how .anim,#product .anim,#pricing .anim,#proof .anim').forEach(el=>obs.observe(el));
-window.calcDV=calcDV;
-window.openModal=openModal;
-window.closeModal=closeModal;
-window.goToStripe=goToStripe;
-window.toggleFaq=toggleFaq;
-window.goBack=goBack;
 </script>
 </body>
 </html>
