@@ -410,22 +410,38 @@ const LEAD_WEBHOOK_URL = 'https://hook.us2.make.com/cby5h4qh9e9nb6tsr8nuexndqe5i
 
 function sendLead(data) {
   if (!LEAD_WEBHOOK_URL || LEAD_WEBHOOK_URL.includes('PASTE_YOUR')) return;
+
+  // Derive state law context (same logic as goToStripe)
+  const sr = data.stateRule || STATE_RULES[data.state] || {status:'full',deadline:'3 years'};
+  const claimable = sr.status === 'third_party_only' ? 'Third-party only' : 'Yes';
+  const stateLawNotes = sr.status === 'third_party_only'
+    ? `${data.state} restricts DV claims to third-party (at-fault driver's) insurers only. First-party DV claims are generally not available.`
+    : `${data.state} allows both first-party and third-party DV claims. Filing deadline: ${sr.deadline} from accident date.`;
+
   fetch(LEAD_WEBHOOK_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      name:              data.name,
-      email:             data.email,
-      state:             data.state,
-      vehicle_year:      data.year,
-      vehicle_make:      data.make,
-      vehicle_model:     data.model,
-      mileage:           data.mileage,
-      repair_cost:       data.repair,
-      fault:             data.fault,
-      structural_damage: data.structural,
-      prior_accident:    data.prior,
+      name:              data.name || '',
+      email:             (data.email || '').toLowerCase().trim(),
+      state:             data.state || '',
+      vehicle_year:      data.year || '',
+      vehicle_make:      data.make || '',
+      vehicle_model:     data.model || '',
+      mileage:           data.mileage || '',
+      repair_cost:       data.repair || '',
+      accident_date:     data.accidentDate || '',
+      fault:             data.fault || '',
+      structural_damage: data.structural || '',
+      prior_accident:    data.prior || '',
+      repaired:          data.repaired || '',
       dv_estimate:       data.mid || 0,
+      dv_low:            data.low || 0,
+      dv_high:           data.high || 0,
+      base_value:        data.base || 0,
+      claimable:         claimable,
+      filing_deadline:   sr.deadline || '3 years',
+      state_law_notes:   stateLawNotes,
       eligible:          data.eligible ? 'Yes' : 'No',
       ineligible_reason: data.ineligibleReason || '',
       submitted_at:      new Date().toISOString()
@@ -459,7 +475,7 @@ function calcDV(){
   const v=id=>document.getElementById(id).value;
   const year=v('f-year'),make=v('f-make'),model=v('f-model'),mileage=v('f-mileage'),repair=v('f-repair'),state=v('f-state'),fault=v('f-fault'),structural=v('f-structural'),prior=v('f-prior'),repaired=v('f-repaired'),name=v('f-name'),email=v('f-email'),accidentDate=v('f-accident-date');
   if(!year||!make||!model||!repair||!state||!name||!email){alert('Please fill in all required fields.');return;}
-  const data={year,make,model,mileage,repair,state,fault,structural,prior,repaired,name,email};
+  const data={year,make,model,mileage,repair,state,fault,structural,prior,repaired,name,email,accidentDate};
   const elig=checkEligibility(data);
   if(!elig.eligible){
     sendLead({...data,mid:0,eligible:false,ineligibleReason:elig.title});
@@ -480,7 +496,7 @@ function calcDV(){
   window._dv={year,make,model,mileage,repair,state,fault,structural,prior,name,email,mid,low,high,base:Math.round(base),stateRule:elig.stateRule,accidentDate};
 
   // Send lead to Make.com → Google Sheets
-  sendLead({...data,mid,eligible:true});
+  sendLead({...data,mid,low,high,base:Math.round(base),eligible:true,stateRule:elig.stateRule});
 
   set('r-amount','$'+mid.toLocaleString());
   set('r-range','Typical range: $'+low.toLocaleString()+' – $'+high.toLocaleString());
